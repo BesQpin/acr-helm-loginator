@@ -51,7 +51,7 @@ function Connect-HelmAcr {
 
     # Get fresh token for ACR
     Write-Verbose "Getting ACR token..."
-    $token = az acr login --name $AcrName --expose-token --output tsv --query accessToken
+    $token = az acr login --name $AcrName --expose-token --output tsv --query accessToken --only-show-errors
 
     if (-not $token) {
         throw "Failed to retrieve access token for ACR $AcrName"
