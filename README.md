@@ -31,7 +31,8 @@ Clone the repository and import the module:
 
 ```powershell
 git clone https://github.com/BesQpin/acr-helm-loginator.git
-Import-Module ./acr-helm-loginator/helm-acrlogin.psd1 -Force
+cd acr-helm-loginator
+Import-Module ./helm-acrlogin.psd1 -Force
 ```
 
 ## Usage
