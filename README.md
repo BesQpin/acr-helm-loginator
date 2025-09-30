@@ -1,5 +1,7 @@
 # ACR Helm Loginator
 
+<img src="helmacrlogo.png" alt="alt text" style="width:30%;"/>
+
 Utility PowerShell module to simplify logging into Azure Container Registry (ACR) with Helm.
 
 ## Features
