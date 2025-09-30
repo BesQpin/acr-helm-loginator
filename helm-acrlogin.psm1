@@ -69,3 +69,38 @@ function Connect-HelmAcr {
         throw "Helm registry login failed for $AcrName.azurecr.io"
     }
 }
+
+function Disconnect-HelmAcr {
+    <#
+    .SYNOPSIS
+        Logs out of a Helm registry for an Azure Container Registry.
+
+    .PARAMETER AcrName
+        The name of the Azure Container Registry (without .azurecr.io).
+
+    .EXAMPLE
+        Disconnect-HelmAcr -AcrName jgmseaprdssvacr
+    #>
+
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$AcrName
+    )
+
+    Write-Verbose "Logging out of Helm registry..."
+    helm registry logout "$AcrName.azurecr.io"
+
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✅ Logged out of Helm registry: $AcrName.azurecr.io"
+    } else {
+        throw "Helm registry logout failed for $AcrName.azurecr.io"
+    }
+
+    # Optional: also log out from Docker to fully clear creds
+    try {
+        docker logout "$AcrName.azurecr.io" | Out-Null
+        Write-Verbose "Also logged out of Docker registry: $AcrName.azurecr.io"
+    } catch {
+        Write-Verbose "Docker logout skipped (Docker may not be running)."
+    }
+}

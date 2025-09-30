@@ -7,8 +7,9 @@ Utility PowerShell module to simplify logging into Azure Container Registry (ACR
 ## Features
 
 - Log into an ACR with Helm using an Azure CLI access token.
-- Optional parameter to log in and switch to the subscription that contains the ACR.
-- Wraps the required `az` and `helm` commands into a single reusable function.
+- Optionally log in and switch to the subscription that contains the ACR.
+- Log out from Helm (and optionally Docker) for the ACR.
+- Wraps the required `az`, `helm`, and `docker` commands into reusable functions.
 
 ## Requirements
 
@@ -63,7 +64,16 @@ helm pull oci://myAcr.azurecr.io/helm/mychart --version 1.0.0
 helm show all ./mychart-1.0.0.tgz
 ```
 
+### Disconnect from an ACR
+
+When you are finished, log out of Helm (and Docker) for the registry:
+
+```powershell
+Disconnect-HelmAcr -AcrName myAcr
+```
+
 ## Notes
 
 - The `--username` used by Helm login is always the placeholder GUID `00000000-0000-0000-0000-000000000000` when using an access token.
-- The function automatically runs `az login` if you are not already authenticated.
+- The `Connect-HelmAcr` function automatically runs `az login` if you are not already authenticated.
+- The `Disconnect-HelmAcr` function calls both `helm registry logout` and `docker logout` for the registry to ensure all cached credentials are removed.
